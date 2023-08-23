@@ -29,7 +29,7 @@ const TaskGen = ()=>{
                             {/* <h2>{value.id}</h2> */}
                             <div className='flex justify-between  px-6 card-child'>
                                 <button className='text-3xl bg-red-500 text-white p-2 rounded-lg hover:bg-red-700' onClick={() => handleDelete(value.id)}><MdDeleteForever /></button>
-                                <button className='text-3xl bg-sky-500 hover:bg-sky-700 text-white p-2 rounded-lg' onClick={() => handleEdit(value.id, textref)} ><BiSolidEdit /></button>
+                                <button className='text-3xl bg-sky-500 hover:bg-sky-700 text-white p-2 rounded-lg bg-[red]' onClick={() => handleEdit(value.id, textref)} ><BiSolidEdit /></button>
                             </div>
                             <div className='card-child text-sm  w-full '>{value.timestamp}</div>
                         </div>
