@@ -1,10 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 const Tasks = createContext(["No Tasks"])
 const TaskStore = (props)=>{
 
-  
+  const myref=useRef();
     const [data, setData] = useState([])
-    const [edit, setEdit] = useState(false);
+    const [edit, setEdit] = useState(null);
     useEffect(() => {
         console.log(data);
     }, [data])
@@ -24,31 +24,29 @@ const TaskStore = (props)=>{
 
 
     const handleSave = () => {
-        setEdit(false)
-        setData(data)
+        if(myref.current && edit){
+            const up=data.map((item)=>
+            item.id==edit.id?{...item,task:myref.current.value}:item
+            );
+            setData(up);
+            setEdit(null);
+            myref.current.value="";
 
+        }
+        
     }
 
-    const handleEdit = (id, ref) => {
-        setEdit(true)
-
-        ref.current.value = data.filter(value => value.id === id)[0].task;
-
-        setData(data.map(value => {
-            if (value.id === id) {
-                value.task = ref.current.value;
-            }
-            return value;
-        }))
-
-
-        // setData(data.filter((value) => value.id !== id))
+    const handleEdit = (tas) => {
+        setEdit(tas);
+       if(myref.current){
+        myref.current.value=tas.task;
+       }
 
 
     }
 
     return (
-        <Tasks.Provider value={{ data, handleCreate, handleDelete, handleEdit, setData, edit, handleSave }}>
+        <Tasks.Provider value={{ data, handleCreate, handleDelete, handleEdit, setData, edit, handleSave,myref }}>
             {props.children}
         </Tasks.Provider>
     )
